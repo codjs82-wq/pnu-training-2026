@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 부산대학교 직무연수 안내</title>
+  <meta name="description" content="부산대학교 교직원을 위한 2026년 직무연수 과정을 한곳에서. 검색하고 필터링해 원하는 과정을 찾아보세요." />
+
+  <!-- 폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body data-page="index">
+
+  <header class="site-header">
+    <div class="wrap">
+      <span class="brand"><a href="index.html">부산대학교 직무연수</a></span>
+      <span class="year-badge">2026</span>
+      <span class="header-spacer"></span>
+      <span class="header-note">인재개발원 · 교직원 역량개발</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <p class="hero-kicker">PNU Staff Development 2026</p>
+        <h1>2026 부산대학교<br />직무연수 안내</h1>
+        <p class="lead">
+          부산대학교 교직원을 위한 2026년 직무연수 과정을 한곳에서.
+          법정의무교육부터 직무·리더십·어학까지, 원하는 과정을 검색하고 바로 신청하세요.
+        </p>
+
+        <div class="stats" id="stats">
+          <div class="stat"><span class="num" id="stat-courses">–</span><span class="lbl">전체 과정</span></div>
+          <div class="stat"><span class="num" id="stat-fields">–</span><span class="lbl">교육 분야</span></div>
+          <div class="stat"><span class="num" id="stat-required">–</span><span class="lbl">필수(법정) 교육</span></div>
+        </div>
+
+        <div class="search-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input id="search" type="search" placeholder="과정명·키워드·담당부서로 검색" autocomplete="off" aria-label="과정 검색" />
+        </div>
+      </div>
+    </section>
+
+    <section class="filters" aria-label="과정 필터">
+      <div class="wrap">
+        <div class="filter-group">
+          <span class="filter-label">분야</span>
+          <div class="chips" id="cat-chips"></div>
+        </div>
+        <div id="facets"></div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="result-bar">
+        <span class="result-count" id="result-count" aria-live="polite">불러오는 중…</span>
+        <button class="btn-reset" id="reset" hidden>필터 초기화</button>
+      </div>
+
+      <div class="skeleton-grid" id="skeleton" aria-hidden="true">
+        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+      </div>
+
+      <div class="grid" id="grid"></div>
+      <div class="state" id="state" hidden></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 부산대학교 인재개발원 · 직무연수 안내</span>
+      <span>과정 정보는 담당부서 안내에 따라 수시로 갱신됩니다.</span>
+    </div>
+  </footer>
+
+  <!-- PapaParse -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    // 히어로 지표는 데이터 로드 후 채운다 (app.js가 window에 노출한 훅 사용)
+    document.addEventListener("courses:loaded", (e) => {
+      const rows = e.detail;
+      const fields = new Set(rows.map(r => r["분야"]));
+      const req = rows.filter(r => r["이수구분"].startsWith("필수")).length;
+      document.getElementById("stat-courses").textContent = rows.length;
+      document.getElementById("stat-fields").textContent = fields.size;
+      document.getElementById("stat-required").textContent = req;
+    });
+  </script>
+</body>
+</html>
